@@ -4,3 +4,6 @@ class Order:
     
     def make_order(self, user, cart):
         self.orders[user] = cart
+    
+    def remove_order(self, user):
+        self.orders.pop(user)

@@ -1,7 +1,7 @@
 class User:
     def __init__(self, id, role, username, password):
         self.id = id
-        self.role = role
+        self.role = role #TODO: Snak omkring roller
         self.username = username  #Maybe?
         self._password = password  #Maybe?
         

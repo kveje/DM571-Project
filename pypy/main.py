@@ -3,6 +3,7 @@ from item import Item
 from stock import Stock
 from user import User
 from order import Order
+import uuid
 
 #Prints cart in a simple way
 def print_cart(cart):
@@ -14,7 +15,7 @@ def print_cart(cart):
     
 def print_inventory(stock):
     print("\n----------------INVENTORY----------------")
-    for item in stock.inventory:
+    for item in stock.inventory: #Item == it's ID
         print("ID: " + str(item))
         print(stock.inventory[item].name + " " 
               + stock.inventory[item].type + " " 
@@ -30,9 +31,12 @@ def print_orders(orders):
         print_cart(orders.orders[user])
         print("-------------------------------------------------")
 
+def generate_random_uuid(): #Skal ikke ligge her, men god måde at lave random uuid's
+    return uuid.uuid4()
+
 def main():
     
-    user = User(1, "kk", "HAHA", "JOJ")
+    user = User(generate_random_uuid(), "kk", "HAHA", "JOJ")
 
     print(user.id)   
     
@@ -40,10 +44,10 @@ def main():
     
     stock = Stock()
     
-    pants = Item(23, "Addidas Sweats", "Pants", 100, 50, "f", "d", "d")
-    shirt = Item(2, "Nike T-Shirt", "Shirts", 100, 25, "f", "d", "d")
-    beer = Item(3, "Odense Classic", "Drinks", 2, 10000, "f", "d", "d")
-    laptop = Item(4, "Laptop", "Electronics", 5000, 15, "f", "d", "d")
+    pants = Item(generate_random_uuid(), "Addidas Sweats", "Pants", 100, 50, "f", "d", "d")
+    shirt = Item(generate_random_uuid(), "Nike T-Shirt", "Shirts", 100, 25, "f", "d", "d")
+    beer = Item(generate_random_uuid(), "Odense Classic", "Drinks", 2, 10000, "f", "d", "d")
+    laptop = Item(generate_random_uuid(), "Laptop", "Electronics", 5000, 15, "f", "d", "d")
     
     stock.add(pants.id, pants)  
     stock.add(shirt.id, shirt)
@@ -56,24 +60,24 @@ def main():
     cart = Cart()
     
     #Add itmes
-    cart.update(stock.inventory[pants.id], 3)  
-    cart.update(stock.inventory[shirt.id], 4)
-    cart.update(stock.inventory[beer.id], 1000)
-    cart.update(stock.inventory[laptop.id], 2)
+    cart.update(pants, 3)  
+    cart.update(shirt, 4)
+    cart.update(beer, 1000)
+    cart.update(laptop, 2)
 
     #Print cart and see items in cart and stock
     print_cart(cart)
 
     #Remove item from cart
-    cart.remove(stock.inventory[pants.id])
+    cart.remove(pants)
 
     #Show new cart with removed item and updates stock numbers
     print_cart(cart)
 
     #Should print only x amount in stock
-    cart.update(stock.inventory[laptop.id], 1000)
+    cart.update(laptop, 1000)
     
-    cart.update(stock.inventory[laptop.id], 4)
+    cart.update(laptop, 4)
     
     print_cart(cart)
 

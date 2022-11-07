@@ -7,25 +7,22 @@ class Cart:
             print("Not in stock")
         elif item.stock < amount:
             print("Only " + str(item.stock) + " " + item.name + "(s)" + " in stock")
-        else:
-            if amount > 0:
-                if item in self.cart:
-                    old_amount = self.cart[item]
-                    self.cart[item] = amount 
-                    
-                    if old_amount < amount:
-                        item.stock +=  (old_amount - amount)
-                    else:
-                        item.stock -= (old_amount - amount)
-                        
+        elif amount > 0:
+            if item in self.cart:  #Check if item is in cart already
+                old_amount = self.cart[item]
+                self.cart[item] = amount 
+                
+                if old_amount < amount:  #Adjust the stock levels according to an increase or decrease in basket amount of item
+                    item.stock +=  (old_amount - amount)
                 else:
-                    self.cart[item] = amount 
-                    item.stock -=  amount
-            else:
-                print("Must be a positive amount")
-        
-        
-        
+                    item.stock -= (old_amount - amount)   
+
+            else: #Add item to cart if not in cart
+                self.cart[item] = amount 
+                item.stock -=  amount
+        else:
+            print("Must be a positive amount")
+
     def remove(self, item):
         if item in self.cart:
             item.stock += self.cart[item]
