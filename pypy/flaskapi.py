@@ -29,9 +29,28 @@ class Item(Resource):
     def post(self):
         return jsonify(TEST_ITEM)
     
+class UserList(Resource):
+    def get(self):
+        if request.headers.get('Authorization') == "123456789":
+            print("GODKENT!")
+            return jsonify(instance.get_user_list()), 200
+        else:
+            return "Nej nej nej", 400
+
+class User(Resource):
+    def post(self):
+        req = request.json
+        try:
+           instance.create_user(req["user_id"])
+           return "", 200
+        except:
+            return "", 400
+        
 
 api.add_resource(Item, '/item')
 api.add_resource(HelloWorld, '/')
+api.add_resource(UserList, '/user-list')
+api.add_resource(User, '/user')
 
 if __name__ == '__main__':
     instance = Instance()
