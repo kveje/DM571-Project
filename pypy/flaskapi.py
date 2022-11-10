@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_restful import Resource, Api
+from instance import Instance
 
 app = Flask(__name__)
 api = Api(app)
@@ -17,7 +18,9 @@ TEST_ITEM = {
 
 class HelloWorld(Resource):
     def get(self):
-        return {'hello': 'world'}
+        print(request.json)
+        a= request.json
+        return instance.hello()
     
 class Item(Resource):
     def get(self):
@@ -28,7 +31,8 @@ class Item(Resource):
     
 
 api.add_resource(Item, '/item')
-
+api.add_resource(HelloWorld, '/')
 
 if __name__ == '__main__':
+    instance = Instance()
     app.run(debug=True, threaded=True)

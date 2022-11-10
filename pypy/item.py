@@ -7,7 +7,7 @@ class Item:
         self.name = name
         self.type = type
         self.price = price
-        self.stock = stock
+        self.inventory = stock
         self.description = description
         self.supplier = supplier
         self.picture = picture
