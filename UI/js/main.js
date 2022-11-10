@@ -1,3 +1,5 @@
+const serverUrl = "http://127.0.0.1:5000";
+
 const Inventory = [
   {
     id: 1,
@@ -112,4 +114,40 @@ function showProducts(products) {
 
 function addToBasket(id) {
   console.log(id);
+}
+
+function createUser() {
+  var data = JSON.stringify({ user_id: 1 });
+  var url = serverUrl + "/user";
+  var param = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: data,
+    method: "POST",
+    mode: "no-cors",
+  };
+
+  fetch(url, param).then((data) => {
+    console.log(data);
+  });
+}
+
+function getUserList() {
+  var param = {
+    headers: {
+      Authorization: "123456789",
+      "Content-Type": "application/json",
+    },
+    method: "GET",
+    mode: "no-cors",
+  };
+  url = serverUrl + "/user-list";
+
+  jsonData = fetch(url, param)
+    .then((res) => res.json())
+    .then((out) => console.log("Checkout this JSON! ", out))
+    .catch((err) => {
+      throw err;
+    });
 }

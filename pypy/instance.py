@@ -22,7 +22,7 @@ class Instance():
     def get_user_list(self):
         lst = []
         for user in self.users:
-            lst.append(user)
+            lst.append(user.id)
         return lst
     
     def create_order(self, user):

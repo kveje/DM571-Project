@@ -4,3 +4,6 @@ class User:
     
     def create_shopping_basket(self, shopping_basket):
         self.shopping_basket = shopping_basket
+    
+    def get_user_json(self):
+        return self.id

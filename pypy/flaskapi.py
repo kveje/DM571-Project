@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from flask_restful import Resource, Api
 from instance import Instance
 
@@ -31,20 +31,27 @@ class Item(Resource):
     
 class UserList(Resource):
     def get(self):
-        if request.headers.get('Authorization') == "123456789":
-            print("GODKENT!")
-            return jsonify(instance.get_user_list()), 200
-        else:
-            return "Nej nej nej", 400
+        lst = instance.get_user_list()
+        obj = {
+          1: "Hej",
+          2: "OGSÅ",
+          3: "ÆALSDLAÆSKDÆ"
+        }
+        return obj
+        #if request.headers.get('Authorization') == "123456789":
+        #    print("GODKENT!")
+        #    return jsonify(instance.get_user_list()), 200
+        #else:
+        #    return "Nej nej nej", 400
 
 class User(Resource):
     def post(self):
-        req = request.json
+        request_json = request.get_json(force=True)
         try:
-           instance.create_user(req["user_id"])
+           instance.create_user(request_json["user_id"])
            return "", 200
         except:
-            return "", 400
+            return "", 401
         
 
 api.add_resource(Item, '/item')
