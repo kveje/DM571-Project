@@ -66,7 +66,6 @@ class Basket(Resource):
         else:
             return "Unauthorized", 401
 
-"""INGEN CHECK OVERHOVEDET I FØLGENDE CLASSES, BARE FOR AT FÅ ET ELLER ANDET NED"""
 class Order(Resource):
     def get(self, uid):
         if request.headers.get('Authorization') == AUTH:
