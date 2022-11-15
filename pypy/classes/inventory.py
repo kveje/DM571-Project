@@ -1,4 +1,4 @@
-from item import Item
+from classes.item import Item
 
 class Inventory(Item):
     def __init__(self):
@@ -12,6 +12,12 @@ class Inventory(Item):
 
     def update_stock_lvl(self, id: int, qty: int):
         self.items[id].set_stock_lvl_local = qty
+    
+    def get_inventory(self) -> list:
+        inventory_list = []
+        for i in self.items:
+            inventory_list.append(self.items[i].get_item())
+        return inventory_list
 
 if __name__ == "__main__":
     inv = Inventory()

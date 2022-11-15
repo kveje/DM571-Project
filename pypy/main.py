@@ -1,8 +1,8 @@
-from cart import Cart
-from item import Item
-from inventory import Inventory
-from user import User
-from order import Order
+from classes.cart import Cart
+from classes.item import Item
+from classes.inventory import Inventory
+from classes.user import User
+from classes.order import Order
 import uuid
 
 #Prints cart in a simple way

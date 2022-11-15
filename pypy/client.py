@@ -1,17 +1,16 @@
-from cart import Cart
-from item import Item
-from order import Order
-from inventory import Inventory
-from user import User
+from classes.cart import Cart
+from classes.item import Item
+from classes.order import Order
+from classes.inventory import Inventory
+from classes.user import User
 
-class Instance():
+class Client():
     def __init__(self):
         self.stock = Inventory()
         self.users = []
         self.orders = {}
 
-    def hello(self):
-        return {'hello': 'world'}
+        #
 
     def create_user(self,user_id):
         self.users.append(User(user_id))
@@ -37,13 +36,11 @@ class Instance():
             order_lst.append(order)
         return order_lst
 
-    def create_item(self, id, name, price, desciption, photo_url, stock_lvl_local, stock_lvl_supplier, supplier):
-        self.stock.add(id, Item(id, name, price, desciption, photo_url, stock_lvl_local, stock_lvl_supplier, supplier))
+    def create_item(self, id, name, price, stock_lvl_local, description, supplier, photo_url):
+        self.stock.add(Item(id, name, price, stock_lvl_local, description, supplier, photo_url))
     
     def create_shopping_basket(self, user):
         user.create_shopping_basket(Cart())
     
-    
-
-if __name__ == '__main__':
-    inst = Instance()
+    def get_inventory(self):
+        return self.stock.get_inventory()

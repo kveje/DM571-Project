@@ -21,6 +21,7 @@
       integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
       crossorigin="anonymous"
     ></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="main.css" />
   </head>
   <body id="hjem" class="bg-light">
@@ -56,90 +57,14 @@
             </li>
           </ul>
         </div>
+        <div>Logged in as: Carsten123 (uid: 123)</div>
       </div>
     </nav>
 
     <!-- Product Page -->
     <div class="container-fluid bg-light">
       <div class="container">
-        <a class="btn btn-primary" onclick="showProducts(Inventory)">TEST</a>
-        <div class="row d-flex align-items-center" id="ProductPage">
-          <div class="col-md-4 my-3">
-            <div class="card">
-              <img class="card-img-top" src="..." alt="Card image cap" />
-              <div class="card-body">
-                <h5 class="card-title">Pande</h5>
-                <p class="card-text">Produktbeskrivelse for en pande</p>
-                <a id="ADD-PRODUKTID" class="btn btn-primary"
-                  >Tilføj til kurv</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 my-3">
-            <div class="card">
-              <img class="card-img-top" src="..." alt="Card image cap" />
-              <div class="card-body">
-                <h5 class="card-title">Pande</h5>
-                <p class="card-text">Produktbeskrivelse for en pande</p>
-                <a id="ADD-PRODUKTID" class="btn btn-primary"
-                  >Tilføj til kurv</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 my-3">
-            <div class="card">
-              <img class="card-img-top" src="..." alt="Card image cap" />
-              <div class="card-body">
-                <h5 class="card-title">Pande</h5>
-                <p class="card-text">Produktbeskrivelse for en pande</p>
-                <a id="ADD-PRODUKTID" class="btn btn-primary"
-                  >Tilføj til kurv</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 my-3">
-            <div class="card">
-              <img class="card-img-top" src="..." alt="Card image cap" />
-              <div class="card-body">
-                <h5 class="card-title">Pande</h5>
-                <p class="card-text">Produktbeskrivelse for en pande</p>
-                <a id="ADD-PRODUKTID" class="btn btn-primary"
-                  >Tilføj til kurv</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 my-3">
-            <div class="card">
-              <img class="card-img-top" src="..." alt="Card image cap" />
-              <div class="card-body">
-                <h5 class="card-title">Pande</h5>
-                <p class="card-text">Produktbeskrivelse for en pande</p>
-                <a
-                  id="ADD-PRODUKTID"
-                  class="btn btn-primary"
-                  onclick="purchase(id)"
-                  >Tilføj til kurv</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 my-3">
-            <div class="card">
-              <img class="card-img-top" src="..." alt="Card image cap" />
-              <div class="card-body">
-                <h5 class="card-title">Pande</h5>
-                <p class="card-text">Produktbeskrivelse for en pande</p>
-                <a id="ADD-PRODUKTID" class="btn btn-primary"
-                  >Tilføj til kurv</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="row d-flex align-items-center" id="ProductPage"></div>
       </div>
     </div>
 

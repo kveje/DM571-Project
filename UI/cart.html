@@ -25,6 +25,7 @@
       integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
       crossorigin="anonymous"
     ></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="main.css" />
   </head>
   <body id="hjem" class="bg-light">
@@ -60,6 +61,7 @@
             </li>
           </ul>
         </div>
+        <div>Logged in as: Carsten123 (uid: 123)</div>
       </div>
     </nav>
 
@@ -111,14 +113,11 @@
               </div>
             </li>
           </ul>
-          <a class="btn btn-primary mb-3">Gennemfør ordrer</a>
+          <a class="btn btn-primary mb-3" onclick="purchase(String(123))"
+            >Gennemfør ordrer</a
+          >
         </div>
       </div>
-    </div>
-
-    <div>
-      <a class="btn btn-primary" onclick="createUser()">OPRET BRUGER</a>
-      <a class="btn btn-primary" onclick="getUserList()">Få brugerliste</a>
     </div>
     <!-- Footer -->
 
