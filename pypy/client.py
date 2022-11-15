@@ -3,6 +3,7 @@ from classes.item import Item
 from classes.order import Order
 from classes.inventory import Inventory
 from classes.user import User
+import copy
 
 class Client():
     def __init__(self):
@@ -43,10 +44,17 @@ class Client():
     def get_item(self, item_id):
         return self.inventory.items[item_id]
 
-    def get_basket_items(self, basket):
+    def get_basket_items(self, shopping_basket):
+
         item_list = []
-        for item in basket.cart:
-            item_list.append(item.get_item())
+        for item in shopping_basket.cart.keys():
+            item_dict = item.get_item()
+            item_dict["amount"] = shopping_basket.cart[item]
+            item_list.append(item_dict)
+        
+        # item_list = []
+        # for item in basket.cart:
+        #     item_list.append(item.get_item())
         return item_list
               
     def create_shopping_basket(self, user):
