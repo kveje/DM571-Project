@@ -14,7 +14,7 @@ def get_stock_lvl_supplier_B(id:int) -> int:
 
 class Item():
     """Item class, that handles item stuff"""
-    def __init__(self, id: int, name: str, price: int, stock_lvl_local: int, description: str, supplier: str, photo_url: str): #Kører vi uden gettere og setter her?
+    def __init__(self, id: int, name: str, price: int, stock_lvl_local: int, description: str, supplier: str, photo_url: str):
         self.id = id
         self.name = name
         self.price = price
