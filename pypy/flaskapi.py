@@ -9,19 +9,6 @@ api = Api(app)
 
 AUTH = "123456789"
     
-class Item(Resource):
-    def post(self):
-        req = request.get_json()
-        if request.headers.get('Authorization') == AUTH:
-            if req['id'] in client.inventory.items:
-                return "Item already exists", 400
-            else:
-                #100p en nemmere mmåde at gøre det her på bare en quick fix lige nu
-                client.create_item(req['id'], req['name'], req['price'],req['stock_lvl_local'],req['description'],req['supplier'],req['photo_url'])
-                return "", 201
-        else:
-           return "", 400
-    
 class UserList(Resource):
     def get(self):
         lst = client.get_user_list()
@@ -127,16 +114,40 @@ class Orders(Resource):
         
         # return make_response(jsonify(client.orders), 200)
         
-        
+class Inventory(Resource):
+    def get(self):
+        inventory_list = client.get_inventory()
+        return {"data" : inventory_list}, 200
+    
+    def post(self):
+        req = request.get_json()
+        if request.headers.get('Authorization') == AUTH:
+            if req['id'] in client.inventory.items:
+                return "Item already exists", 400
+            else:
+                #100p en nemmere mmåde at gøre det her på bare en quick fix lige nu
+                client.create_item(req['id'], req['name'], req['price'],req['stock_lvl_local'],req['description'],req['supplier'],req['photo_url'])
+                return "", 201
+        else:
+           return "", 400
 
-api.add_resource(Item, '/item')
 api.add_resource(UserList, '/user-list')
 api.add_resource(User, '/user')
 api.add_resource(Basket, '/user/<int:user_id>/basket')
 api.add_resource(Order, '/user/<int:user_id>/order')
 api.add_resource(Orders, '/orders')
+api.add_resource(Inventory, '/inventory')
 
 
 if __name__ == '__main__':
     client = Client()
+
+    # Adding basic items
+    client.create_item(1, "Wok", 20.0, 5, "Den Ægte Pande. Approved af det ægte karryfarvede folk!", "A","https://cdn.shopify.com/s/files/1/2807/7652/products/Nexgrill_Pro_Wok_website.png?v=1559905032")
+    client.create_item(2, "Jamie Oliver", 189.95, 5, "Han laver mad på pander og fik skæld ud af en gonger fordi han ikke stegte gode ris","A","https://upload.wikimedia.org/wikipedia/commons/3/38/Jamie_Oliver_%28cropped%29.jpg")
+    client.create_item(3, "GenbrugsPande", 2.75, 5, "Denne Pande er genbrugt og god for miljøet. God til vegansk mad","A","https://politiken.dk/imagevault/publishedmedia/4vnqctmr536aotcbtq58/combekk-pander3.jpg")
+    client.create_item(4, "Selvvarmende Pande", 649.95, 5, "Denne Pande består af en lækker jern-legering, der bliver varm hvis man putter den i stikkontakten","A","https://pandasia.dk/wp-content/uploads/Produkter/Non-food/hot-pot-fondue.jpg.webp")
+    client.create_item(5, "Støbejernspande", 649.95, 5, "Denne Pande består af en lækker jern-legering - den giver hård jern","A","https://www.kramogkanel.dk/wp-content/uploads/2020/01/1026569-Fiskars-Norden-cast-iron-frying-pan-26cm-1.jpg")
+    client.create_item(6, "Panda", 1000000.99, 5, "Denne pande er lidt delikat, men af god kinesisk kvalitet","A","https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Giant_Panda_2004-03-2.jpg/1280px-Giant_Panda_2004-03-2.jpg")
+    
     app.run(debug=True, threaded=True)

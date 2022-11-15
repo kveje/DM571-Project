@@ -38,7 +38,7 @@ class Client():
         return order_lst
 
     def create_item(self, id, name, price, stock_lvl_local, description, supplier, photo_url):
-        self.stock.add(Item(id, name, price, stock_lvl_local, description, supplier, photo_url))
+        self.inventory.add(Item(id, name, price, stock_lvl_local, description, supplier, photo_url))
     
     def get_item(self, item_id):
         return self.inventory.items[item_id]
@@ -53,4 +53,4 @@ class Client():
         user.create_shopping_basket(Cart())
     
     def get_inventory(self):
-        return self.stock.get_inventory()
+        return self.inventory.get_inventory()
