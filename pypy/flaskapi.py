@@ -18,8 +18,7 @@ class UserList(Resource):
 
 class User(Resource):
     def post(self):
-        req = request.get_json(force=True)
-
+        req = request.get_json()
         if request.headers.get('Authorization') == AUTH:
             if req['uid'] in client.get_user_list():
                 return "User already exists", 400
