@@ -17,10 +17,10 @@ class Client():
         self.users.remove(user)
 
     def get_user_list(self):
-        lst = []
+        user_list = []
         for user in self.users:
-            lst.append(user.id)
-        return lst
+            user_list.append(user.id)
+        return user_list
     
     def get_user(self, user_id):
         return next(user for user in self.users if user.id == user_id)
@@ -32,10 +32,10 @@ class Client():
         self.orders.pop(user)
     
     def get_orders(self):
-        order_lst = []
+        order_list = []
         for order in self.orders:
-            order_lst.append(order)
-        return order_lst
+            order_list.append(order)
+        return order_list
 
     def create_item(self, id, name, price, stock_lvl_local, description, supplier, photo_url):
         self.inventory.add(Item(id, name, price, stock_lvl_local, description, supplier, photo_url))

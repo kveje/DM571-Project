@@ -25,7 +25,7 @@ class User(Resource):
         print(request.headers)
         print(request.get_json())
         print(request.headers['Content-type'])
-        request_json = request.get_json()
+        request_json = request.get_json(force=True)
         
         if request.headers.get('Authorization') == AUTH:
             try:
@@ -45,7 +45,7 @@ class Basket(Resource):
                 return "User doesn\'t have a basket", 400
             else:
                 try:
-                    user = client.get_user(user_id)   
+                    user = client.get_user(user_id)
                     item_list = client.get_basket_items(user.shopping_basket)
                     return make_response(jsonify(item_list), 200)
                 except:
@@ -117,6 +117,7 @@ class Orders(Resource):
 class Inventory(Resource):
     def get(self):
         inventory_list = client.get_inventory()
+        print(request.headers)
         return {"data" : inventory_list}, 200
     
     def post(self):
@@ -150,4 +151,9 @@ if __name__ == '__main__':
     client.create_item(5, "Støbejernspande", 649.95, 5, "Denne Pande består af en lækker jern-legering - den giver hård jern","A","https://www.kramogkanel.dk/wp-content/uploads/2020/01/1026569-Fiskars-Norden-cast-iron-frying-pan-26cm-1.jpg")
     client.create_item(6, "Panda", 1000000.99, 5, "Denne pande er lidt delikat, men af god kinesisk kvalitet","A","https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Giant_Panda_2004-03-2.jpg/1280px-Giant_Panda_2004-03-2.jpg")
     
+    # Adding some basic users
+    client.create_user('123')
+    client.create_user('456')
+    client.create_user('789')
+
     app.run(debug=True, threaded=True)
