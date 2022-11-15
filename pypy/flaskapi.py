@@ -87,10 +87,11 @@ class Order(Resource):
 class Orders(Resource):
     def get(self):
         if request.headers.get('Authorization') == AUTH:
+            order_list = {}
             for id, order in client.orders.items():
-                client.orders[id] = client.get_basket_items(order)
-
-            return make_response(jsonify(client.orders), 200)
+                order_list[id] = client.get_basket_items(order)
+                
+            return make_response(jsonify(order_list), 200)
         else:
            return "Unauthorized", 400
 
