@@ -11,29 +11,23 @@ AUTH = "123456789"
 
 class UserList(Resource):
     def get(self):
-        lst = client.get_user_list()
-        print(request.headers)
-        print(lst)
         if request.headers.get('Authorization') == AUTH:
-           print("GODKENT!")
-           return jsonify(client.get_user_list())
+           return make_response(jsonify(client.get_user_list()), 200)
         else:
-           return "", 400
+           return "Unauthorized", 400
 
 class User(Resource):
     def post(self):
-        print(request.headers)
-        print(request.get_json())
-        print(request.headers['Content-type'])
-        request_json = request.get_json(force=True)
+        req = request.get_json(force=True)
 
         if request.headers.get('Authorization') == AUTH:
+            if req['uid'] in client.get_user_list():
+                return "User already exists", 400
             try:
-                client.create_user(request_json["uid"])
+                client.create_user(req["uid"])
                 return "", 201
-            except Exception as e:
-                print(e)
-                return "Wah wah waaaaaah, bad request", 400
+            except:
+                return "Bad request", 400
         else:
            return "Unauthorized", 401
 
@@ -49,9 +43,7 @@ class Basket(Resource):
                     user = client.get_user(uid)
                     item_list = client.get_basket_items(user.shopping_basket)    
                     return make_response(jsonify(item_list), 200)
-
-                except Exception as e:
-                    print(e)
+                except:
                     return "Bad request", 400
         else:
             return "Unauthorized", 401
@@ -69,8 +61,7 @@ class Basket(Resource):
                     item = client.get_item(req['item_id'])
                     user.shopping_basket.update(item, req['item_amount'])
                     return "", 200
-                except Exception as e:
-                    print(e)
+                except:
                     return "Bad request", 400
         else:
             return "Unauthorized", 401
@@ -78,39 +69,42 @@ class Basket(Resource):
 """INGEN CHECK OVERHOVEDET I FØLGENDE CLASSES, BARE FOR AT FÅ ET ELLER ANDET NED"""
 class Order(Resource):
     def get(self, uid):
-        return make_response(jsonify(client.get_basket_items(client.orders[uid])), 200)
+        if request.headers.get('Authorization') == AUTH:
+            return make_response(jsonify(client.get_basket_items(client.orders[uid])), 200)
+        else:
+           return "Unauthorized", 400
 
     def post(self, uid):
-        user = client.get_user(uid)
-        client.create_order(user)
-        return "", 201
+        if request.headers.get('Authorization') == AUTH:
+            if uid not in client.get_user_list():
+                return "No user with id", 400
+            else:
+                user = client.get_user(uid)
+                client.create_order(user)
+                return "", 201
+        else:
+           return "Unauthorized", 400
+
 
 class Orders(Resource):
     def get(self):
-        # En dict hvis der menes at man skal kunne se hvilket id til hvilken order
-        # Og vi ikke gør at index i den her order liste er = order id, som der gøres oven over
+        if request.headers.get('Authorization') == AUTH:
+            for id, order in client.orders.items():
+                client.orders[id] = client.get_basket_items(order)
 
-        for id, order in client.orders.items():
-            client.orders[id] = client.get_basket_items(order)
+            return make_response(jsonify(client.orders), 200)
+        else:
+           return "Unauthorized", 400
 
-        return make_response(jsonify(client.orders), 200)
 
 class Inventory(Resource):
     def get(self):
-        inventory_list = client.get_inventory()
-        print(request.headers)
-        return {"data" : inventory_list}, 200
-
-    def post(self):
-        req = request.get_json()
         if request.headers.get('Authorization') == AUTH:
-            if req['id'] in client.inventory.items:
-                return "Item already exists", 400
-            else:
-                client.create_item(req['id'], req['name'], req['price'],req['stock_lvl_local'],req['description'],req['supplier'],req['photo_url'])
-                return "", 201
+            inventory_list = client.get_inventory()
+            print(request.headers)
+            return {"data" : inventory_list}, 200
         else:
-           return "", 400
+            return "Unathorized", 400
 
 api.add_resource(UserList, '/user-list')
 api.add_resource(User, '/user')
