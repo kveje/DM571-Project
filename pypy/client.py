@@ -52,9 +52,6 @@ class Client():
             item_dict["amount"] = shopping_basket.cart[item]
             item_list.append(item_dict)
         
-        # item_list = []
-        # for item in basket.cart:
-        #     item_list.append(item.get_item())
         return item_list
               
     def create_shopping_basket(self, user):
