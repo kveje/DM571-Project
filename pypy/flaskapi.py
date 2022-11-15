@@ -68,7 +68,14 @@ class Basket(Resource):
 class Order(Resource):
     def get(self, uid):
         if request.headers.get('Authorization') == AUTH:
-            return make_response(jsonify(client.get_basket_items(client.orders[uid])), 200)
+            if uid not in client.get_user_list():
+                return "No user with id", 400
+            elif not hasattr(client.get_user(uid), 'shopping_basket'):
+                return "User doesn\'t have a basket", 400
+            if uid not in client.orders:
+                return "User doesn\'t have an order made", 400
+            else:
+                return make_response(jsonify(client.get_basket_items(client.orders[uid])), 200)
         else:
            return "Unauthorized", 400
 
@@ -76,6 +83,8 @@ class Order(Resource):
         if request.headers.get('Authorization') == AUTH:
             if uid not in client.get_user_list():
                 return "No user with id", 400
+            elif not hasattr(client.get_user(uid), 'shopping_basket'):
+                return "User doesn\'t have a basket", 400
             else:
                 user = client.get_user(uid)
                 client.create_order(user)
@@ -90,7 +99,7 @@ class Orders(Resource):
             order_list = {}
             for id, order in client.orders.items():
                 order_list[id] = client.get_basket_items(order)
-                
+
             return make_response(jsonify(order_list), 200)
         else:
            return "Unauthorized", 400
