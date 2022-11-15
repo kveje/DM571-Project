@@ -14,7 +14,7 @@ class UserList(Resource):
         if request.headers.get('Authorization') == AUTH:
            return make_response(jsonify(client.get_user_list()), 200)
         else:
-           return "Unauthorized", 400
+           return "Unauthorized", 401
 
 class User(Resource):
     def post(self):
@@ -77,7 +77,7 @@ class Order(Resource):
             else:
                 return make_response(jsonify(client.get_basket_items(client.orders[uid])), 200)
         else:
-           return "Unauthorized", 400
+           return "Unauthorized", 401
 
     def post(self, uid):
         if request.headers.get('Authorization') == AUTH:
@@ -90,7 +90,7 @@ class Order(Resource):
                 client.create_order(user)
                 return "", 201
         else:
-           return "Unauthorized", 400
+           return "Unauthorized", 401
 
 
 class Orders(Resource):
@@ -102,7 +102,7 @@ class Orders(Resource):
 
             return make_response(jsonify(order_list), 200)
         else:
-           return "Unauthorized", 400
+           return "Unauthorized", 401
 
 
 class Inventory(Resource):
@@ -112,7 +112,7 @@ class Inventory(Resource):
             print(request.headers)
             return {"data" : inventory_list}, 200
         else:
-            return "Unathorized", 400
+            return "Unathorized", 401
 
 api.add_resource(UserList, '/user-list')
 api.add_resource(User, '/user')
