@@ -1,18 +1,18 @@
-import copy
-
 from classes.basket import Basket
 from classes.inventory import Inventory
 from classes.item import Item
+from classes.order import Order
 from classes.user import User
 
 
 class Client:
     """Object representing an instance of the shopping system"""
 
-    def __init__(self):
+    def __init__(self, min_stock_lvl: int):
         self.inventory = Inventory()
         self.users = []
-        self.orders = {}
+        self.orders = []
+        self.min_stock_lvl = min_stock_lvl
 
     def create_user(self, uid: int, username: str, password: str, mail: str) -> None:
         """Creates a user and append it to the userlist"""
@@ -33,20 +33,29 @@ class Client:
         """Returns a user referenced by a uid"""
         return next(user for user in self.users if user.uid == uid)
 
-    def create_order(self, user: User) -> None:
+    def create_order(self, user: User) -> Order:
         """Creates an order and append it to the orderlist"""
-        self.orders[user.uid] = copy.deepcopy(user.basket)
+        order = Order(user)
+        self.orders.append(order)
+        user.remove_basket()
+        return order.order
 
     def remove_order(self, user: User) -> None:
         """Removes a order from the orderlist"""
         self.orders.pop(user)
 
+    def get_order(self, user: User) -> list:
+        """Gets all orders from a specific user"""
+        user_order_list = []
+        for order in self.orders:
+            if order.user == user.uid:
+                user_order_list.append(order)
+
+        return user_order_list
+
     def get_orders(self) -> list:
         """Gets all orders from the orderlist"""
-        order_list = []
-        for order in self.orders:
-            order_list.append(order)
-        return order_list
+        return self.orders
 
     def create_item(self, id, name, price, stock_lvl_local, description, supplier, photo_url) -> None:
         """Creates an item an adds it to the inventory"""

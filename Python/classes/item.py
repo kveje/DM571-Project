@@ -2,7 +2,7 @@ def get_stock_lvl_supplier_A(id: int) -> int:
     """Function for communicating with Supplier A's API"""
     # Here should be some logic for calling the supplier API
     if id < 3:
-        return 5
+        return 20
     else:
         return 10
 
@@ -11,9 +11,31 @@ def get_stock_lvl_supplier_B(id: int) -> int:
     """Function for communicating with Supplier B's API"""
     # Here should be some logic for calling the supplier API
     if id > 3:
-        return 5
-    else:
         return 10
+    else:
+        return 20
+
+
+def order_from_supplier_A(id: int, amount: int) -> int:
+    """Function for ordering from supplier B"""
+    stock_lvl_supplier = get_stock_lvl_supplier_A(id)
+    if amount > stock_lvl_supplier:
+        # Some logic for ordering from supplier
+        return stock_lvl_supplier
+    else:
+        # Some logic for ordering from supplier
+        return amount
+
+
+def order_from_supplier_B(id: int, amount: int) -> int:
+    """Function for ordering from supplier B"""
+    stock_lvl_supplier = get_stock_lvl_supplier_B(id)
+    if amount > stock_lvl_supplier:
+        # Some logic for ordering from supplier
+        return stock_lvl_supplier
+    else:
+        # Some logic for ordering from supplier
+        return amount
 
 
 class Item:
@@ -36,8 +58,6 @@ class Item:
             return get_stock_lvl_supplier_A(self.id)
         elif self.supplier == "B" or self.supplier == "b":
             return get_stock_lvl_supplier_B(self.id)
-        else:
-            return KeyError
 
     def get_item(self) -> dict:
         """Returns the updated item information in a dict"""
@@ -56,6 +76,15 @@ class Item:
     def get_stock_lvl_local(self) -> int:
         return self.stock_lvl_local
 
-    def set_stock_lvl_local(self, inc: int) -> None:
+    def inc_stock_lvl_local(self, inc: int) -> None:
         """Setter for local stock level value"""
         self.stock_lvl_local += inc
+
+    def order_from_supplier(self, amount) -> None:
+        """Orders an amount of the item from the supplier"""
+        if self.supplier == "A" or self.supplier == "a":
+            ordered_amount = order_from_supplier_A(self.id, amount)
+            self.stock_lvl_local += ordered_amount
+        elif self.supplier == "B" or self.supplier == "b":
+            ordered_amount = order_from_supplier_B(self.id, amount)
+            self.stock_lvl_local += ordered_amount

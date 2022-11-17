@@ -83,7 +83,6 @@ function getBasket() {
       .catch((error) => {
         console.log(error);
       });
-    showBasket(basket);
   }
 }
 
@@ -91,11 +90,11 @@ function showBasket(basket) {
   let totalAmount = 0;
   let basketHtml = `<li class="list-group-item">
   <div class="row">
-    <p class="col-2">Varenummer</p>
-    <p class="col-3">Produktnavn</p>
-    <p class="col-2">Antal</p>
-    <p class="col-2">Stykpris</p>
-    <p class="col-3">Pris</p>
+    <strong class="col-2">Varenummer</strong>
+    <strong class="col-3">Produktnavn</strong>
+    <strong class="col-2">Antal</strong>
+    <strong class="col-2">Stykpris</strong>
+    <strong class="col-3">Pris</strong>
   </div>
 </li>`;
   basket.forEach((element) => {
@@ -186,7 +185,20 @@ function removeFromBasket(productId) {
 
 // Handles the action when 'Gennemfør ordrer' is used
 function purchase() {
-  console.log(uid);
+  if (basket.length === 0) {
+    console.log("The basket is empty");
+  } else {
+    instance
+      .post("/user/" + uid + "/order")
+      .then((response) => {
+        console.log(response.data);
+        basket = [];
+        showBasket(basket);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 }
 
 // What happens on refresh/loads

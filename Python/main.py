@@ -136,12 +136,9 @@ class Basket(Resource):
             else:
                 try:
                     user = client.get_user(uid)
-                    print(user)
                     item = client.get_item(req["item_id"])
-                    print(item)
                     user.basket.remove(item)
                     basket = client.get_basket_items(user.basket)
-                    print(basket)
                     return basket, 200
                 except:
                     print("Could not remove item from the basket of user with uid", uid)
@@ -156,33 +153,36 @@ class Order(Resource):
     """Object for http requests on /user/<int:uid>/order"""
 
     def get(self, uid: int):
-        """Get"""
+        """Get all orders for a given user"""
         # Check for api_key
         if request.headers.get("Authorization") in api_key_list:
             # Check whether the user exists
             if uid not in client.get_user_list():
                 return "No user with id", 400
-            # Check whe
-            elif not hasattr(client.get_user(uid), "basket"):
-                return "User doesn't have a basket", 400
-            if uid not in client.orders:
-                return "User doesn't have an order made", 400
             else:
-                return make_response(jsonify(client.get_basket_items(client.orders[uid])), 200)
+                user = client.get_user(uid)
+                user_order_list = client.get_order(user)
+                if len(user_order_list) == 0:
+                    return "User has no orders", 400
+                else:
+                    return make_response(jsonify(user_order_list), 200)
         else:
             return "Unauthorized", 401
 
     def post(self, uid: int):
-        """"""
+        """Creates an order for the given user"""
         if request.headers.get("Authorization") in api_key_list:
             if uid not in client.get_user_list():
                 return "No user with id", 400
             elif not hasattr(client.get_user(uid), "basket"):
                 return "User doesn't have a basket", 400
             else:
-                user = client.get_user(uid)
-                client.create_order(user)
-                return "", 201
+                try:
+                    user = client.get_user(uid)
+                    order = client.create_order(user)
+                    return make_response(jsonify(order), 200)
+                except:
+                    return "Bad request", 400
         else:
             return "Unauthorized", 401
 
@@ -195,10 +195,7 @@ class Orders(Resource):
         # Check for api_key
         if request.headers.get("Authorization") in api_key_list:
             try:
-                order_list = {}
-                for id, order in client.orders.items():
-                    order_list[id] = client.get_basket_items(order)
-                print("Order list:", order_list)
+                order_list = client.get_orders()
                 return make_response(jsonify(order_list), 200)
             except:
                 print("Could not return orderlist")
@@ -232,7 +229,7 @@ api.add_resource(Inventory, "/inventory")
 
 
 if __name__ == "__main__":
-    client = Client()
+    client = Client(min_stock_lvl=5)
 
     """The following simulates the initialisation of a shopping system, by adding some items and users for illustrative purposes"""
     # Adding basic items
@@ -240,7 +237,7 @@ if __name__ == "__main__":
         1,
         "Wok",
         20.0,
-        5,
+        15,
         "Den Ægte Pande. Approved af det ægte karryfarvede folk!",
         "A",
         "https://cdn.shopify.com/s/files/1/2807/7652/products/Nexgrill_Pro_Wok_website.png?v=1559905032",
@@ -249,7 +246,7 @@ if __name__ == "__main__":
         2,
         "Jamie Oliver",
         189.95,
-        5,
+        10,
         "Han laver mad på pander og fik skæld ud af en gonger fordi han ikke stegte gode ris",
         "A",
         "https://upload.wikimedia.org/wikipedia/commons/3/38/Jamie_Oliver_%28cropped%29.jpg",
@@ -258,7 +255,7 @@ if __name__ == "__main__":
         3,
         "GenbrugsPande",
         2.75,
-        5,
+        12,
         "Denne Pande er genbrugt og god for miljøet. God til vegansk mad",
         "A",
         "https://politiken.dk/imagevault/publishedmedia/4vnqctmr536aotcbtq58/combekk-pander3.jpg",
@@ -267,7 +264,7 @@ if __name__ == "__main__":
         4,
         "Selvvarmende Pande",
         649.95,
-        5,
+        16,
         "Denne Pande består af en lækker jern-legering, der bliver varm hvis man putter den i stikkontakten",
         "A",
         "https://pandasia.dk/wp-content/uploads/Produkter/Non-food/hot-pot-fondue.jpg.webp",
@@ -276,7 +273,7 @@ if __name__ == "__main__":
         5,
         "Støbejernspande",
         649.95,
-        5,
+        8,
         "Denne Pande består af en lækker jern-legering - den giver hård jern",
         "A",
         "https://www.kramogkanel.dk/wp-content/uploads/2020/01/1026569-Fiskars-Norden-cast-iron-frying-pan-26cm-1.jpg",
@@ -285,7 +282,7 @@ if __name__ == "__main__":
         6,
         "Panda",
         1000000.99,
-        5,
+        79,
         "Denne pande er lidt delikat, men af god kinesisk kvalitet",
         "A",
         "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Giant_Panda_2004-03-2.jpg/1280px-Giant_Panda_2004-03-2.jpg",

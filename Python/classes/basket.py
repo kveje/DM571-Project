@@ -21,7 +21,6 @@ class Basket(Item):
         # If the given amount is negative, refuse the update
         else:
             print("Must be a positive amount")
-            return
 
     def remove(self, item: Item) -> None:
         """Removes an item from the basket"""
