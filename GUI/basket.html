@@ -28,7 +28,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="main.css" />
   </head>
-  <body id="hjem" class="bg-light">
+  <body id="basket" class="bg-light">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
       <div class="container">
@@ -54,10 +54,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item lead">
-              <a href="index.html" class="nav-link active">Produkter</a>
+              <a href="products.html" class="nav-link active">Produkter</a>
             </li>
             <li class="nav-item lead">
-              <a href="cart.html" class="nav-link">Indkøbskurv</a>
+              <a href="basket.html" class="nav-link">Indkøbskurv</a>
             </li>
           </ul>
         </div>
@@ -69,58 +69,15 @@
     <div class="container-fluid bg-light">
       <div class="container">
         <div class="row d-flex align-items-center">
-          <ul class="list-group my-3">
-            <li class="list-group-item">
-              <div class="row">
-                <p class="col-2">Varenummer</p>
-                <p class="col-3">Produktnavn</p>
-                <p class="col-2">Antal</p>
-                <p class="col-2">Stykpris</p>
-                <p class="col-3">Pris</p>
-              </div>
-            </li>
-            <li class="list-group-item">
-              <div class="row">
-                <p class="col-2">0001</p>
-                <p class="col-3">Pande</p>
-                <p class="col-2">2</p>
-                <p class="col-2">150,00</p>
-                <p class="col-3">300,00</p>
-              </div>
-            </li>
-            <li class="list-group-item">
-              <div class="row">
-                <p class="col-2">0002</p>
-                <p class="col-3">Potter</p>
-                <p class="col-2">3</p>
-                <p class="col-2">200,00</p>
-                <p class="col-3">400,00</p>
-              </div>
-            </li>
-            <li class="list-group-item">
-              <div class="row">
-                <p class="col-2">0003</p>
-                <p class="col-3">Skeer</p>
-                <p class="col-2">5</p>
-                <p class="col-2">50,00</p>
-                <p class="col-3">250,00</p>
-              </div>
-            </li>
-            <li class="list-group-item">
-              <div class="row">
-                <p class="col-9">Total</p>
-                <p id="total" class="col-3">950,00</p>
-              </div>
-            </li>
-          </ul>
-          <a class="btn btn-primary mb-3" onclick="purchase(String(123))"
+          <ul class="list-group my-3" id="BasketPage"></ul>
+          <a class="btn btn-primary mb-3" onclick="purchase()"
             >Gennemfør ordrer</a
           >
         </div>
       </div>
     </div>
-    <!-- Footer -->
 
+    <!-- Footer -->
     <div class="container-fluid bg-dark text-light">
       <div class="container">
         <div class="row">
@@ -133,6 +90,8 @@
         </div>
       </div>
     </div>
+
+    <div class=""></div>
 
     <script src="js/main.js" async defer></script>
   </body>

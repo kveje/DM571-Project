@@ -1,1 +1,2 @@
-pypy/__pycache__/*.pyc
+Python/__pycache__
+Python/classes/__pycache__
