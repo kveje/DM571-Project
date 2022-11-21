@@ -1,7 +1,7 @@
 from classes.item import Item
 
 
-class Inventory(Item):
+class Inventory:
     """Object representing the inventory"""
 
     def __init__(self):

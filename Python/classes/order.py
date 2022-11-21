@@ -3,7 +3,7 @@ from classes.item import Item
 from classes.user import User
 
 
-class Order(Item):
+class Order():
     def __init__(self, user: User):
         item_list = []
         for item in user.basket.basket.keys():

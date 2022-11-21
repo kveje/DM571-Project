@@ -73,17 +73,15 @@ function getInventory() {
 }
 
 function getBasket() {
-  if (document.body.id === "basket") {
-    instance
-      .get("/user/" + uid + "/basket")
-      .then((response) => {
-        basket = response.data;
-        showBasket(basket);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  instance
+    .get("/user/" + uid + "/basket")
+    .then((response) => {
+      basket = response.data;
+      showBasket(basket);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 function showBasket(basket) {
@@ -134,7 +132,11 @@ function showBasket(basket) {
     `</p>
   </div>
 </li>`;
-  document.getElementById("BasketPage").innerHTML = basketHtml;
+  if (document.body.id == "basket") {
+    document.getElementById("BasketPage").innerHTML = basketHtml;
+  }
+  document.getElementById("price-badge").innerHTML =
+    totalAmount.toFixed(2) + " kr.";
 }
 
 // Handles the action when 'Tilføj til kurv' is used
@@ -154,6 +156,7 @@ function addToBasket(productId) {
     .post("/user/" + uid + "/basket", body)
     .then((response) => {
       basket = response.data;
+      showBasket(basket);
     })
     .catch((error) => {
       if (error.response.status == 403) {
