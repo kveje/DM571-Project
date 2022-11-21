@@ -41,9 +41,9 @@ class User(Resource):
                 return "User already exists", 400
             # Try to create user
             try:
-                client.create_user(req["uid"])
+                client.create_user(req["uid"], req["username"], req["password"], req["mail"])
                 print("User created with uid:", req["uid"])
-                return "", 201
+                return make_response({"uid": client.get_user(req["uid"]).uid}, 201)
             except:
                 print("Could not create user with uid:", req["uid"])
                 return "Bad request", 400
@@ -165,7 +165,10 @@ class Order(Resource):
                 if len(user_order_list) == 0:
                     return "User has no orders", 400
                 else:
-                    return make_response(jsonify(user_order_list), 200)
+                    try:
+                        return make_response(jsonify(user_order_list), 200)
+                    except:
+                        return "Bad request", 400
         else:
             return "Unauthorized", 401
 

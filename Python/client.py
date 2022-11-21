@@ -48,14 +48,16 @@ class Client:
         """Gets all orders from a specific user"""
         user_order_list = []
         for order in self.orders:
-            if order.user == user.uid:
-                user_order_list.append(order)
+            if order.order["uid"] == user.uid:
+                user_order_list.append(order.order)
 
         return user_order_list
 
     def get_orders(self) -> list:
         """Gets all orders from the orderlist"""
-        return self.orders
+        # Get the order dict from the Order
+        order_list = [order.order for order in self.orders]
+        return order_list
 
     def create_item(self, id, name, price, stock_lvl_local, description, supplier, photo_url) -> None:
         """Creates an item an adds it to the inventory"""
