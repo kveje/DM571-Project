@@ -1,64 +1,64 @@
 DM571-Project\Python\client.py
-    M 32:4 Client.get_user - A
-    M 47:4 Client.get_order - A
-    C 8:0 Client - A
-    M 25:4 Client.get_user_list - A
-    M 56:4 Client.get_orders - A
-    M 70:4 Client.get_basket_items - A
-    M 11:4 Client.__init__ - A
-    M 17:4 Client.create_user - A
-    M 21:4 Client.remove_user - A
-    M 36:4 Client.create_order - A
-    M 43:4 Client.remove_order - A
-    M 62:4 Client.create_item - A
-    M 66:4 Client.get_item - A
-    M 81:4 Client.create_basket - A
-    M 85:4 Client.get_inventory - A
+    M 32:4 Client.get_user - A (3)
+    M 47:4 Client.get_order - A (3)
+    C 8:0 Client - A (2)
+    M 25:4 Client.get_user_list - A (2)
+    M 56:4 Client.get_orders - A (2)
+    M 70:4 Client.get_basket_items - A (2)
+    M 11:4 Client.__init__ - A (1)
+    M 17:4 Client.create_user - A (1)
+    M 21:4 Client.remove_user - A (1)
+    M 36:4 Client.create_order - A (1)
+    M 43:4 Client.remove_order - A (1)
+    M 62:4 Client.create_item - A (1)
+    M 66:4 Client.get_item - A (1)
+    M 81:4 Client.create_basket - A (1)
+    M 85:4 Client.get_inventory - A (1)
 DM571-Project\Python\main.py
-    C 56:0 Basket - B
-    M 85:4 Basket.post - B
-    C 152:0 Order - B
-    C 30:0 User - A
-    M 59:4 Basket.get - A
-    M 124:4 Basket.delete - A
-    M 155:4 Order.get - A
-    M 175:4 Order.post - A
-    M 33:4 User.post - A
-    C 193:0 Orders - A
-    C 14:0 UserList - A
-    M 196:4 Orders.get - A
-    C 211:0 Inventory - A
-    M 17:4 UserList.get - A
-    M 214:4 Inventory.get - A
+    C 56:0 Basket - B (6)
+    M 85:4 Basket.post - B (6)
+    C 152:0 Order - B (6)
+    C 30:0 User - A (5)
+    M 59:4 Basket.get - A (5)
+    M 124:4 Basket.delete - A (5)
+    M 155:4 Order.get - A (5)
+    M 175:4 Order.post - A (5)
+    M 33:4 User.post - A (4)
+    C 193:0 Orders - A (4)
+    C 14:0 UserList - A (3)
+    M 196:4 Orders.get - A (3)
+    C 211:0 Inventory - A (3)
+    M 17:4 UserList.get - A (2)
+    M 214:4 Inventory.get - A (2)
 DM571-Project\Python\classes\basket.py
-    M 10:4 Basket.update - A
-    C 4:0 Basket - A
-    M 25:4 Basket.remove - A
-    M 7:4 Basket.__init__ - A
+    M 10:4 Basket.update - A (4)
+    C 4:0 Basket - A (3)
+    M 25:4 Basket.remove - A (2)
+    M 7:4 Basket.__init__ - A (1)
 DM571-Project\Python\classes\inventory.py
-    C 4:0 Inventory - A
-    M 22:4 Inventory.get_inventory - A
-    M 7:4 Inventory.__init__ - A
-    M 10:4 Inventory.add - A
-    M 14:4 Inventory.remove - A
-    M 18:4 Inventory.update_stock_lvl - A
+    C 4:0 Inventory - A (2)
+    M 22:4 Inventory.get_inventory - A (2)
+    M 7:4 Inventory.__init__ - A (1)
+    M 10:4 Inventory.add - A (1)
+    M 14:4 Inventory.remove - A (1)
+    M 18:4 Inventory.update_stock_lvl - A (1)
 DM571-Project\Python\classes\item.py
-    M 55:4 Item.get_supplier_lvl - A
-    M 83:4 Item.order_from_supplier - A
-    C 41:0 Item - A
-    F 1:0 get_stock_lvl_supplier_A - A
-    F 10:0 get_stock_lvl_supplier_B - A
-    F 19:0 order_from_supplier_A - A
-    F 30:0 order_from_supplier_B - A
-    M 44:4 Item.__init__ - A
-    M 62:4 Item.get_item - A
-    M 76:4 Item.get_stock_lvl_local - A
-    M 79:4 Item.inc_stock_lvl_local - A
+    M 55:4 Item.get_supplier_lvl - A (5)
+    M 83:4 Item.order_from_supplier - A (5)
+    C 41:0 Item - A (3)
+    F 1:0 get_stock_lvl_supplier_A - A (2)
+    F 10:0 get_stock_lvl_supplier_B - A (2)
+    F 19:0 order_from_supplier_A - A (2)
+    F 30:0 order_from_supplier_B - A (2)
+    M 44:4 Item.__init__ - A (1)
+    M 62:4 Item.get_item - A (1)
+    M 76:4 Item.get_stock_lvl_local - A (1)
+    M 79:4 Item.inc_stock_lvl_local - A (1)
 DM571-Project\Python\classes\order.py
-    C 6:0 Order - A
-    M 7:4 Order.__init__ - A
+    C 6:0 Order - A (3)
+    M 7:4 Order.__init__ - A (2)
 DM571-Project\Python\classes\user.py
-    C 4:0 User - A
-    M 7:4 User.__init__ - A
-    M 13:4 User.create_basket - A
-    M 17:4 User.remove_basket - A
+    C 4:0 User - A (2)
+    M 7:4 User.__init__ - A (1)
+    M 13:4 User.create_basket - A (1)
+    M 17:4 User.remove_basket - A (1)
