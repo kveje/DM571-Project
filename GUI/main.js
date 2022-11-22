@@ -1,9 +1,8 @@
-// BaseURL for the API
+// BaseInstance for the API
 const instance = axios.create({
-  baseURL: "http://127.0.0.1:5000",
+  baseURL: "http://localhost:5000",
   headers: { Authorization: "123456789" },
 });
-const baseUrl = "http://127.0.0.1:5000";
 const ApiKey = "123456789";
 
 // Constant UserID for illustrative purposes (since a user platform has been omitted in the example)

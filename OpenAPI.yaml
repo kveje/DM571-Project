@@ -4,11 +4,11 @@ info:
   description: This is an awesome app for a shopping basket
   contact:
     email: kasja20@student.sdu.dk
+    name: Tan Nhat Lee, Nikolaj Dall, Emil Czepluch, Kasper Veje Jakobsen
   version: 1.0.0
-servers:
-  - url: https://api.inutilia-emptio.com/v1
 tags:
   - name: Inventory
+  - name: Shopping Basket
 
 paths:
   /inventory:
@@ -16,23 +16,16 @@ paths:
       tags:
         - Inventory
       summary: Fetch inventory status
-      description: Fetch a list of products and stock levels. Alternatively only fect stock levels for one product.
-      parameters:
-        - name: id
-          in: query
-          description: Get the product and stock level of the id requested
-          required: false
-          schema:
-            type: integer
+      description: Fetch a list of products with stock levels
       security:
-        - api_key: []
+        - apiKey: []
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AllInventoryItems'
+                $ref: '#/components/schemas/AllItems'
                       
         '400':
           description: Bad request
@@ -40,6 +33,7 @@ paths:
           description: Unauthorized - API Key not accepted
         '418':
           description: The server refuses to brew coffee because it is, permanently, a teapot
+
   /basket/create:
     post:
       tags:
@@ -54,7 +48,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
       security:
-        - api_key: []
+        - apiKey: []
       responses:
         '200':
           description: Successful operation
@@ -92,22 +86,22 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Item ID for the item to add to the basket, aswell as the quantity of the item.
-        required: false
+        description: The quantity of the item, you want to add to your basket
+        required: true
         content:
           application/json:
               schema:
                 type: integer
                 example: 5
       security:
-        - api_key: []
+        - apiKey: []
       responses:
         '200':
           description: Successful operation, returns the entire shoppingbasket
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AllBasketItems'
+                $ref: '#/components/schemas/AllItems'
         '400':
           description: Bad request
         '401':
@@ -116,6 +110,8 @@ paths:
           description: Basket not found
         '418':
           description: The server refuses to brew coffee because it is, permanently, a teapot
+        '498':
+          description: Amount not in stock
     delete:
       tags:
         - Shopping Basket
@@ -135,14 +131,14 @@ paths:
           schema:
             type: string
       security:
-        - api_key: []
+        - apiKey: []
       responses:
         '200':
           description: Successful operation, returns the entire shoppingbasket
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AllBasketItems'
+                $ref: '#/components/schemas/AllItems'
         '400':
           description: Bad request
         '401':
@@ -154,63 +150,50 @@ paths:
 
 components:
   securitySchemes:
-    api_key:
+    apiKey:
       type: apiKey
-      name: api_key
-      in: query
+      name: Authorization
+      in: header
   schemas:
-    AllInventoryItems:
+    AllItems:
       type: array
       items:
         allOf:
-          - $ref: '#/components/schemas/InventoryItem'
-      example:
-        - id: 1
-          stock_lvl_local: 5
-          stock_lvl_a: 0
-          stock_lvl_b: 5
-        - id: 2
-          stock_lvl_local: 10
-          stock_lvl_a: 3
-          stock_lvl_b: 0
-    InventoryItem:
+          - $ref: '#/components/schemas/Item'
+    Item:
       type: object
       properties:
-        id:
+        itemId:
           type: integer
           example: 1234
-        stock_lvl_local:
+        stockLvlLocal:
           type: integer
           example: 5
-        stock_lvl_a:
+        stockLvlSupplier:
           type: integer
           example: 5
-        stock_lvl_b:
+        supplier:
+          type: string
+          example: 'Supplier A'
+        photoUrl:
+          type: string
+          example: 'https://www.stockimage.com/pot'
+        price:
           type: integer
-          example: 5
-    AllBasketItems:
-      type: array
-      items:
-        allOf:
-          - $ref: '#/components/schemas/BasketItem'
-      example:
-        - id: 1
-          qty: 5
-        - id: 2
-          qty: 8
-    BasketItem:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 1234
+          example: 17.95
+        name:
+          type: string
+          example: 'Perfekt Pande'
+        description:
+          type: string
+          example: 'Denne Pande består af en lækker jern-legering, der gør maden super sprød'
         qty:
           type: integer
           example: 5
     ShoppingBasket:
       type: object
       properties:
-        basketid:
+        basketId:
           type: string
           example: LKJHI78oyhLO/8hiulhi67g
     User:
