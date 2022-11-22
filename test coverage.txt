@@ -1,0 +1,9 @@
+Name                Stmts   Miss  Cover
+---------------------------------------
+classes\basket.py      15      0   100%
+classes\item.py        46     16    65%
+classes\user.py        11      0   100%
+test\__init__.py        0      0   100%
+test\test.py           93      1    99%
+---------------------------------------
+TOTAL                 165     17    90%
