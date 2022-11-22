@@ -1,145 +1,11 @@
 import unittest
 
-# from classes.basket import Basket
-# from classes.inventory import Inventory
-# from classes.item import Item
-# from classes.order import Order
-# from classes.user import User
-def get_stock_lvl_supplier_A(id: int) -> int:
-    """Function for communicating with Supplier A's API"""
-    # Here should be some logic for calling the supplier API
-    if id < 3:
-        return 20
-    else:
-        return 10
+# For relative imports to work
+import sys, os; sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-
-def get_stock_lvl_supplier_B(id: int) -> int:
-    """Function for communicating with Supplier B's API"""
-    # Here should be some logic for calling the supplier API
-    if id > 3:
-        return 10
-    else:
-        return 20
-
-
-def order_from_supplier_A(id: int, amount: int) -> int:
-    """Function for ordering from supplier B"""
-    stock_lvl_supplier = get_stock_lvl_supplier_A(id)
-    if amount > stock_lvl_supplier:
-        # Some logic for ordering from supplier
-        return stock_lvl_supplier
-    else:
-        # Some logic for ordering from supplier
-        return amount
-
-
-def order_from_supplier_B(id: int, amount: int) -> int:
-    """Function for ordering from supplier B"""
-    stock_lvl_supplier = get_stock_lvl_supplier_B(id)
-    if amount > stock_lvl_supplier:
-        # Some logic for ordering from supplier
-        return stock_lvl_supplier
-    else:
-        # Some logic for ordering from supplier
-        return amount
-
-
-class Item:
-    """Item class, that handles item stuff"""
-
-    def __init__(
-        self, id: int, name: str, price: int, stock_lvl_local: int, description: str, supplier: str, photo_url: str
-    ):
-        self.id = id
-        self.name = name
-        self.price = price
-        self.stock_lvl_local = stock_lvl_local
-        self.description = description
-        self.supplier = supplier
-        self.photo_url = photo_url
-
-    def get_supplier_lvl(self) -> int:
-        """Returns the updated item information in a dict"""
-        if self.supplier == "A" or self.supplier == "a":
-            return get_stock_lvl_supplier_A(self.id)
-        elif self.supplier == "B" or self.supplier == "b":
-            return get_stock_lvl_supplier_B(self.id)
-
-    def get_item(self) -> dict:
-        """Returns the updated item information in a dict"""
-        stock_lvl_supplier = self.get_supplier_lvl()
-        return {
-            "id": self.id,
-            "name": self.name,
-            "price": self.price,
-            "stock_lvl_local": self.stock_lvl_local,
-            "stock_lvl_supplier": stock_lvl_supplier,
-            "description": self.description,
-            "supplier": self.supplier,
-            "photo_url": self.photo_url,
-        }
-
-    def get_stock_lvl_local(self) -> int:
-        return self.stock_lvl_local
-
-    def inc_stock_lvl_local(self, inc: int) -> None:
-        """Setter for local stock level value"""
-        self.stock_lvl_local += inc
-
-    def order_from_supplier(self, amount) -> None:
-        """Orders an amount of the item from the supplier"""
-        if self.supplier == "A" or self.supplier == "a":
-            ordered_amount = order_from_supplier_A(self.id, amount)
-            self.stock_lvl_local += ordered_amount
-        elif self.supplier == "B" or self.supplier == "b":
-            ordered_amount = order_from_supplier_B(self.id, amount)
-            self.stock_lvl_local += ordered_amount
-
-
-class Basket():
-    """Object representing a basket"""
-
-    def __init__(self):
-        self.basket = {}
-
-    def update(self, item: Item, amount: int) -> None:
-        """Updates the basket with an item.
-        If the item is already in the basket, the amount will be updated."""
-        # If the item is not in stock, refuse the update
-        if item.stock_lvl_local <= 0:
-            print("Not in inventory")
-        # If the given amount is not in stock, refuse the update
-        elif item.stock_lvl_local < amount:
-            print("Only " + str(item.stock_lvl_local) + " " + item.name + "(s)" + " in inventory")
-        elif amount > 0:
-            self.basket[item] = amount
-        # If the given amount is negative, refuse the update
-        else:
-            print("Must be a positive amount")
-
-    def remove(self, item: Item) -> None:
-        """Removes an item from the basket"""
-        if item in self.basket:
-            self.basket.pop(item)
-
-class User():
-    """Object representing a user"""
-
-    def __init__(self, uid: int, name: str, password: str, mail: str):
-        self.uid = uid
-        self.name = name
-        self.password = password
-        self.mail = mail
-
-    def create_basket(self, basket: Basket) -> None:
-        """Creates a shoppingbasket for the given user"""
-        self.basket = basket
-
-    def remove_basket(self) -> None:
-        delattr(self, "basket")
-
-
+from classes.basket import Basket
+from classes.item import Item
+from classes.user import User
 
 class UserTest(unittest.TestCase):
     def setUp(self):
@@ -147,18 +13,78 @@ class UserTest(unittest.TestCase):
         self.user.create_basket(Basket())
         
     def test_user_creation(self):
+        """Test user creation"""
         self.assertEqual(self.user.uid, 123)
         self.assertEqual(self.user.name, "Carsten")
         self.assertEqual(self.user.password, "Lkj/62dfg")
         self.assertEqual(self.user.mail, "carsten@email.dk")
     
     def test_basket(self):
+        """Test creation of a user's basket"""
         self.assertTrue(hasattr(self.user, "basket"))
         
     def test_remove_basket(self):
+        """Test removal of a user's basket"""
         self.user.remove_basket()
-        self.assertFalse(self.user, "basket")
+        self.assertFalse(hasattr(self.user, "basket"))
+
+class BasketTest(unittest.TestCase):
+    def setUp(self):
+        self.basket = Basket()
+        self.item1 = Item(
+                            1,
+                            "Wok",
+                            20.0,
+                            15,
+                            "Den Ægte Pande. Approved af det ægte karryfarvede folk!",
+                            "A",
+                            "https://cdn.shopify.com/s/files/1/2807/7652/products/Nexgrill_Pro_Wok_website.png?v=1559905032",
+                        )
+        self.item2 = Item(
+                            2,
+                            "Jamie Oliver",
+                            189.95,
+                            10,
+                            "Han laver mad på pander og fik skæld ud af en gonger fordi han ikke stegte gode ris",
+                            "A",
+                            "https://upload.wikimedia.org/wikipedia/commons/3/38/Jamie_Oliver_%28cropped%29.jpg",
+                        )
+        self.item3 = Item(
+                            3,
+                            "GenbrugsPande",
+                            2.75,
+                            12,
+                            "Denne Pande er genbrugt og god for miljøet. God til vegansk mad",
+                            "A",
+                            "https://politiken.dk/imagevault/publishedmedia/4vnqctmr536aotcbtq58/combekk-pander3.jpg",
+                        )
+        self.item4 = Item(
+                            4,
+                            "Selvvarmende Pande",
+                            649.95,
+                            16,
+                            "Denne Pande består af en lækker jern-legering, der bliver varm hvis man putter den i stikkontakten",
+                            "A",
+                            "https://pandasia.dk/wp-content/uploads/Produkter/Non-food/hot-pot-fondue.jpg.webp"
+                        )
         
+    def test_update_success(self):
+        self.basket.update(self.item1, 5)
+        self.assertIn(self.item1, self.basket.basket)
+        self.assertTrue(len(self.basket.basket), 1)
+        self.assertEqual(self.basket.basket[self.item1], 5)
+    
+    def test_update_item_not_in_basket(self):
+        self.basket.update(self.item1, 5)
+        self.assertNotIn(self.item2, self.basket.basket)
+        self.assertEqual(self.basket.basket[self.item1], 5)
+    
+    def test_update_not_in_stock(self):
+        self.assertTrue(str(self.basket.update(self.item1, 20)), "Only 15 Wok(s) in inventory")
+        
+    
+    def test_remove_success(self):
+        pass
         
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)
