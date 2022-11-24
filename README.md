@@ -17,7 +17,7 @@ To use the test code in the project, follow the instructions.
 
 In your terminal, navigate to
 
-- ..relative-path\DM571-Project\Python
+- ..relative-path/DM571-Project/Python
 
 Then you have the following possibilities
 
@@ -35,7 +35,7 @@ To run the prototype, follow the instructions.
 
 In your terminal, navigate to
 
-- ..relative-path\DM571-Project/Python
+- ..relative-path/DM571-Project/Python
 
 To install dependencies, run the following code
 
