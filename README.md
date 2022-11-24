@@ -2,6 +2,8 @@
 
 Authors: Tan Nhat Lee, Nikolaj Dall, Emil Czepluch, Kasper Veje Jakobsen
 
+The report can be read in the file "rapport.pdf"
+
 The readme-file contains information on
 
 - How to run the test code
