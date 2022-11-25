@@ -1,3 +1,4 @@
+### THE FOUR HANDLERS SHOULD BE PLACED SOMEWHERE ELSE FOR PRODUCTION
 def get_stock_lvl_supplier_A(id: int) -> int:
     """Function for communicating with Supplier A's API"""
     # Here should be some logic for calling the supplier API
@@ -74,6 +75,7 @@ class Item:
         }
 
     def get_stock_lvl_local(self) -> int:
+        """Getter for local stock level value"""
         return self.stock_lvl_local
 
     def inc_stock_lvl_local(self, inc: int) -> None:

@@ -3,7 +3,9 @@ from classes.item import Item
 from classes.user import User
 
 
-class Order():
+class Order:
+    """Object representing an order"""
+
     def __init__(self, user: User):
         item_list = []
         for item in user.basket.basket.keys():
@@ -16,4 +18,3 @@ class Order():
             "uid": user.uid,
             "items": item_list,
         }
-        print(self.order)
